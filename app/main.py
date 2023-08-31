@@ -61,7 +61,7 @@ class GenderEnum(str, Enum):
     female = "female"
 
 @app.post("/")
-async def process_symptoms(request: Request, gender: GenderEnum, age: int, symptoms: str):
+async def check_symptoms(request: Request, gender: GenderEnum, age: int, symptoms: str):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=generate_prompt(gender, age, symptoms),
