@@ -3,17 +3,22 @@ from enum import Enum
 from typing import Optional
 from fastapi import FastAPI, Form, Request, Depends
 from pydantic_settings import BaseSettings
+from pydantic import BaseModel
 
 app = FastAPI()
+
 
 class Settings(BaseSettings):
     openai_api_key: str
 
     class Config:
         env_file = ".env"
+
+
 settings = Settings()
 
 openai.api_key = settings.openai_api_key
+
 
 def generate_prompt(gender, age, symptoms):
     return """You are a healthcare assistant, Provide all the different conditions that match the symptom, symptoms assosiated with that condition, overview, risk factor and treatment option based on the gender, age and symptoms.
@@ -54,22 +59,44 @@ overview:
 risk factor:
 treatment options:
 
-""".format(gender, age, symptoms)
+""".format(
+        gender, age, symptoms
+    )
+
 
 class GenderEnum(str, Enum):
     male = "male"
     female = "female"
 
-@app.post("/")
+
+class Result(BaseModel):
+    conditions: str
+    symptoms: str
+    overview: str
+    risks: str
+    treatment: str
+
+
+@app.post("/", response_model=Result)
 async def check_symptoms(request: Request, gender: GenderEnum, age: int, symptoms: str):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=generate_prompt(gender, age, symptoms),
         temperature=0.6,
-        max_tokens=2000
+        max_tokens=2000,
     )
 
-    response= response.choices[0].text.strip()
-    return {'result': response}
+    response: str = response.choices[0].text.strip()
 
+    splitted_strings: list[str] = response.split("\n")
 
+    # remove empty strings
+    sections = [value for value in splitted_strings if len(value) > 0]
+
+    return {
+        "conditions": sections[0].split(": ")[1],
+        "symptoms": sections[1].split(": ")[1],
+        "overview": sections[2].split(": ")[1],
+        "risks": sections[3].split(": ")[1],
+        "treatment": sections[4].split(": ")[1],
+    }
