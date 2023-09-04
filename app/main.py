@@ -62,7 +62,7 @@ class GenderEnum(str, Enum):
     male = "male"
     female = "female"
 
-@app.post("/")
+@app.post("/", response_model=list)
 async def check_symptoms(request: Request, gender: GenderEnum, age: int, symptoms: str):
     response = openai.Completion.create(
         model="text-davinci-003",
