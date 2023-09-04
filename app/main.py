@@ -69,7 +69,12 @@ async def check_symptoms(request: Request, gender: GenderEnum, age: int, symptom
         max_tokens=2000
     )
 
-    response= response.choices[0].text.strip()
-    return {'result': response}
+    response: str = response.choices[0].text.strip()
 
+    splitted_strings: list[str] = response.split("\n")
+
+    # remove empty strings
+    sections = [value for value in splitted_strings if len(value) > 0]
+
+    return sections
 
