@@ -16,7 +16,7 @@ settings = Settings()
 openai.api_key = settings.openai_api_key
 
 def generate_prompt(gender, age, symptoms):
-    return """You are a healthcare assistant, Provide all the different conditions that match the symptom, symptoms assosiated with that condition, overview, risk factor and treatment option based on the gender, age and symptoms.
+    return """You are a healthcare assistant, Provide all the conditions that match the symptom, symptoms assosiated with that condition, overview, risk factor and treatment option based on the gender, age and symptoms given.
 
 Gender: female
 Age: 21
@@ -54,7 +54,9 @@ overview:
 risk factor:
 treatment options:
 
-""".format(gender, age, symptoms)
+""".format(
+        gender, age, symptoms
+    )
 
 class GenderEnum(str, Enum):
     male = "male"
