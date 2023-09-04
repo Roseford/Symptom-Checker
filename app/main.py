@@ -16,7 +16,7 @@ settings = Settings()
 openai.api_key = settings.openai_api_key
 
 def generate_prompt(gender, age, symptoms):
-    return """You are a healthcare assistant, Provide the possible conditions that match the symptom, symptoms assosiated with that condition, overview, causes and treatment option based on the gender, age and symptoms given.
+    return """You are a healthcare assistant, List all the possible conditions associated with the symptom, symptoms assosiated with the different conditions, their overviews, causes and treatment options based on the gender, age and symptoms given.
 
 Gender: female
 Age: 21
