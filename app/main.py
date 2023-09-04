@@ -78,5 +78,5 @@ async def check_symptoms(request: Request, gender: GenderEnum, age: int, symptom
     # remove empty strings
     sections = [value for value in splitted_strings if len(value) > 0]
 
-    return sections
+    return sections, {"Disclaimer":" The Symptom Checker app is intended to provide general information and is not a substitute for professional medical advice. Users should always consult with a qualified healthcare provider for accurate diagnosis and treatment recommendations."}
 
