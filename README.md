@@ -34,7 +34,8 @@ health status.
 
 1. **Clone the repository to your local machine:**
 
-   git clone https://github.com/Roseford/symptom-checker.git
+   git clone
+   https://github.com/Renaissance-Innovation-Labs/AI-Symptoms-Checker.git
 
 2. **Navigate to the app's directory:**
 
