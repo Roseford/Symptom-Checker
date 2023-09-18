@@ -3,8 +3,17 @@ from enum import Enum
 from typing import Optional
 from fastapi import FastAPI, Form, Request, Depends
 from pydantic_settings import BaseSettings
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Settings(BaseSettings):
     openai_api_key: str
